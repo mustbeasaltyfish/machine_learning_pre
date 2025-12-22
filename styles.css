@@ -1,0 +1,353 @@
+:root {
+    /* --- Colors --- */
+    --color-surface: #ffffff;
+    --color-on-surface: #1f1f1f;
+    --color-on-surface-variant: #444746;
+    --color-primary: #1a73e8; /* Google Blue fallback */
+    --color-outline: #e0e3e1;
+    --color-surface-container: #f0f4f8; /* Light grey/blue tint */
+    
+    /* --- Layout --- */
+    --header-height: 64px;
+    --max-width: 1440px;
+    --border-radius-card: 48px;
+    --border-radius-pill: 999px;
+    
+    /* --- Typography --- */
+    --font-family: "Google Sans", "Roboto", "Helvetica Neue", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* --- Header --- */
+.site-header {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    background: var(--color-surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.logo-lockup {
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #444746;
+}
+
+.logo-google {
+    color: #1f1f1f;
+    font-weight: 500;
+}
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-item {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-on-surface-variant);
+    cursor: pointer;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.action-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--border-radius-pill);
+    background: #f0f4f8;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-on-surface);
+    transition: background 0.2s;
+}
+
+.action-pill:hover {
+    background: #e1e9f1;
+}
+
+.action-pill.dark {
+    background: #1f1f1f;
+    color: #fff;
+}
+
+/* --- Main Hero Section (Carousel Look) --- */
+.hero-wrapper {
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden; /* Hide the overflow of side cards */
+}
+
+.carousel-container {
+    width: 100%;
+    max-width: var(--max-width);
+    position: relative;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Visual trick for the "side" cards */
+.side-card {
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    width: 200px;
+    border-radius: 32px;
+    background-color: #5f6368; /* Darker placeholder color */
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://picsum.photos/200/600'); /* Placeholder image */
+    background-size: cover;
+    z-index: 1;
+}
+
+.side-card.left {
+    left: -120px;
+}
+
+.side-card.right {
+    right: -120px;
+}
+
+/* Main Center Card */
+.main-card {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+    background: #fff;
+    border-radius: var(--border-radius-card);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    border: 1px solid #f2f2f2;
+}
+
+/* Background "Particle" effect simulation */
+.main-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Creating a subtle radial gradient mesh to mimic the clean white + color look */
+    background: 
+        radial-gradient(circle at 70% 30%, rgba(66, 133, 244, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 30% 70%, rgba(234, 67, 53, 0.05) 0%, transparent 40%);
+    z-index: -1;
+}
+
+.gemini-logo-text {
+    font-size: 80px; /* Big title */
+    font-weight: 500; /* Google Sans specific */
+    letter-spacing: -2px;
+    margin: 0;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 16px;
+    color: #1f1f1f;
+}
+
+/* The colorful "3" */
+.gemini-number {
+    background: linear-gradient(135deg, #4285f4, #9b72cb, #ea4335, #fbbc04);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 400; /* Slightly thinner */
+}
+
+/* Or use a particle background on just the number if we could, but text-gradient is safer */
+
+.hero-subtitle {
+    font-size: 20px;
+    color: var(--color-on-surface-variant);
+    margin-top: 24px;
+    margin-bottom: 48px;
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-hero {
+    height: 48px;
+    padding: 0 32px;
+    border-radius: var(--border-radius-pill);
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.btn-black {
+    background: #1f1f1f;
+    color: #fff;
+}
+.btn-black:hover {
+    background: #000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn-outline {
+    background: #f0f4f8;
+    color: #1f1f1f;
+}
+.btn-outline:hover {
+    background: #dce3eb;
+}
+
+.link-arrow {
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f1f1f;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 16px;
+}
+.link-arrow:hover {
+    text-decoration: underline;
+}
+
+/* Controls */
+.pause-btn {
+    position: absolute;
+    bottom: 32px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #e0e3e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.pause-btn.left { left: 32px; } /* Actually in the screenshot they are on the side cards */
+.pause-btn.right { right: 32px; } /* Simplified to be inside for now */
+
+/* Navigation Arrows (Bottom Right outside) */
+.nav-arrows {
+    position: absolute;
+    bottom: -60px; /* Outside the card */
+    right: 0;
+    display: flex;
+    gap: 12px;
+}
+
+.arrow-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #e0e3e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.arrow-circle:hover {
+    background: #f0f4f8;
+}
+
+/* Bottom Grid Placeholders */
+.bottom-grid {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    gap: 24px;
+    padding: 0 24px;
+    margin-top: 40px;
+}
+
+.grid-item {
+    flex: 1;
+    height: 120px;
+    background: #fff;
+    border: 1px solid #e0e3e1;
+    border-radius: 24px;
+    position: relative;
+    padding: 20px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.badge-new {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #f0f4f8;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #444746;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .gemini-logo-text { font-size: 56px; }
+    .side-card { display: none; }
+}
