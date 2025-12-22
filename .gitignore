@@ -1,0 +1,14 @@
+# 设计规范与草稿
+style.md
+GEMINI.md
+main_content.md
+
+# 图片与截图资源
+screenshot/
+image.png
+
+# 开发环境与日志
+.DS_Store
+node_modules/
+package-lock.json
+*.log
