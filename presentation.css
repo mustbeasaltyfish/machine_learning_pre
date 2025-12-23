@@ -599,6 +599,11 @@ body {
     0% { opacity: 0; transform: translateY(18px); filter: blur(6px); }
     100% { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
 @media (max-width: 960px) {
     .slide-content.split-layout { flex-direction: column; }
@@ -608,6 +613,7 @@ body {
     .media-grid { grid-template-columns: 1fr; }
     .loss-chart { height: 280px; }
     .overview-grid { grid-template-columns: 1fr; }
+    .divider-title { font-size: 42px; }
 }
 
 /* --- Typography --- */
@@ -662,6 +668,66 @@ p, li { font-size: 18px; line-height: 1.6; color: var(--color-on-surface-variant
 .slide[data-type="title"] .hero-desc.animate-fade-up { --delay: 0.35s; }
 .slide[data-type="title"] .title-info-grid.animate-fade-up { --delay: 0.5s; }
 .slide[data-type="title"] .collaborators-pill-cluster.animate-fade-up { --delay: 0.7s; }
+
+/* --- Section Divider --- */
+.slide-content.section-break {
+    background: linear-gradient(130deg, #1a73e8, #6f7cf6, #d96570);
+    background-size: 200% 200%;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: gradient-shift 9s var(--ease-in-out-smooth) infinite;
+}
+.section-break h1,
+.section-break p { color: #ffffff; }
+.section-break h1 {
+    background: none;
+    -webkit-text-fill-color: #ffffff;
+    -webkit-background-clip: border-box;
+}
+.break-inner { max-width: 720px; }
+.break-label {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(18px);
+}
+.divider-title {
+    margin: 0 0 12px 0;
+    font-size: 54px;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(6px);
+}
+.divider-subtitle {
+    font-size: 18px;
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+}
+.slide.active .break-label {
+    animation: fade-rise 0.9s var(--ease-out-expo) forwards;
+    animation-delay: 0.1s;
+}
+.slide.active .divider-title {
+    animation: text-rise 1.1s var(--ease-out-expo) forwards;
+    animation-delay: 0.2s;
+}
+.slide.active .divider-subtitle {
+    animation: fade-rise 0.9s var(--ease-out-expo) forwards;
+    animation-delay: 0.4s;
+}
 
 /* --- Slide 3: SimCLR Concept Animation (Fixed Layout) --- */
 .anim-concept-simclr {
