@@ -40,28 +40,25 @@
 
     <div class="slides-container" id="slides-container">
 
-        <!-- Slide 1: Title -->
+        <!-- Slide 1: Experiment Overview -->
         <div class="slide active" data-type="title">
             <div class="slide-content center">
-                <h1 style="margin-top: 40px;">自监督与生成模型实验展示<br><span style="font-weight:400; font-size: 0.6em; opacity: 0.8; font-family: monospace;">Exp 4: SimCLR & VAE on CIFAR-10</span></h1>
+                <div class="badge animate-reveal">EXPERIMENT OVERVIEW</div>
+                <h1 style="margin-top: 20px;" class="animate-reveal">机器学习实验汇报：<br>特征提取与模型生成</h1>
+                <p class="hero-desc animate-fade-up">基于 MindSpore 框架的 SimCLR 与 VAE 算法复现</p>
                 
-                <div class="title-info-grid">
-                    <div class="info-item">
-                        <span class="label">Framework</span>
-                        <span class="value">MindSpore (Ascend)</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Dataset</span>
-                        <span class="value">CIFAR-10 (Subsampled)</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Group</span>
-                        <span class="value">Group 3</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Date</span>
-                        <span class="value">2025-12-22</span>
-                    </div>
+                <div class="title-info-grid animate-fade-up">
+                    <div class="info-item"><span class="label">Task 1</span><span class="value">SimCLR 自监督学习</span></div>
+                    <div class="info-item"><span class="label">Task 2</span><span class="value">VAE 变分自编码器</span></div>
+                    <div class="info-item"><span class="label">Framework</span><span class="value">MindSpore 2.2.0</span></div>
+                    <div class="info-item"><span class="label">Hardware</span><span class="value">Ascend 910 Pro</span></div>
+                </div>
+
+                <div class="collaborators-pill-cluster animate-fade-up" style="margin-top: 40px;">
+                    <span class="badge" style="background: #f1f3f4; color: #5f6368; margin: 0 5px;">zym: 整体框架</span>
+                    <span class="badge" style="background: #f1f3f4; color: #5f6368; margin: 0 5px;">wyk: 架构设计</span>
+                    <span class="badge" style="background: #f1f3f4; color: #5f6368; margin: 0 5px;">tzr: 算法原理</span>
+                    <span class="badge" style="background: #f1f3f4; color: #5f6368; margin: 0 5px;">pwc: 结果分析</span>
                 </div>
             </div>
         </div>
