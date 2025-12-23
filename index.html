@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="presentation.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -63,348 +63,156 @@
             </div>
         </div>
 
-        <!-- Slide 2: Directory -->
-        <div class="slide" data-type="list">
+        <!-- Slide 2: Architecture Overview -->
+        <div class="slide" data-type="overview">
             <div class="slide-content">
-                <h2>汇报结构 Overview</h2>
-                <ul class="stagger-list large-list">
-                    <li>
-                        <span class="bullet-num">01</span> 
-                        <div class="list-text">
-                            <strong>SimCLR: 对比学习框架</strong>
-                            <p>Data Augmentation, Encoder Architecture, NT-Xent Loss</p>
+                <div class="badge">SECTION 02</div>
+                <h2>关键模型架构：双模型并行</h2>
+                <p class="slide-subtitle">基于 CIFAR-10 的 SimCLR 自监督表征 + VAE 生成建模（MindSpore 复现）</p>
+
+                <div class="dual-card-grid">
+                    <div class="arch-card arch-simclr" style="--offset: -100px; --delay: 0.1s;">
+                        <div class="arch-header">
+                            <span class="arch-chip simclr">SimCLR</span>
+                            <span class="arch-tag">Task 1</span>
                         </div>
-                    </li>
-                    <li>
-                        <span class="bullet-num">02</span> 
-                        <div class="list-text">
-                            <strong>SimCLR: 实验结果分析</strong>
-                            <p>Loss Curve (60 Epochs), t-SNE Visualization</p>
+                        <p class="arch-desc">对比学习强调视图不变性，学习稳定的语义表征。</p>
+                        <div class="arch-rows">
+                            <div class="arch-row"><span class="arch-label">Encoder</span><span class="arch-value">ResNet + GroupNorm</span></div>
+                            <div class="arch-row"><span class="arch-label">Projection</span><span class="arch-value">2-layer MLP</span></div>
+                            <div class="arch-row"><span class="arch-label">Loss</span><span class="arch-value">NT-Xent</span></div>
                         </div>
-                    </li>
-                    <li>
-                        <span class="bullet-num">03</span> 
-                        <div class="list-text">
-                            <strong>VAE: 变分自编码器</strong>
-                            <p>Encoder-Decoder, Reparameterization, KL-Divergence</p>
+                        <div class="arch-flow">
+                            <span class="flow-pill">Input</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-pill">Augment</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-pill">Encoder</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-pill">Projection</span>
                         </div>
-                    </li>
-                    <li>
-                        <span class="bullet-num">04</span> 
-                        <div class="list-text">
-                            <strong>VAE: 生成与重构</strong>
-                            <p>Beta Annealing, Reconstruction Quality, Sampling</p>
+                    </div>
+                    <div class="arch-card arch-vae" style="--offset: 100px; --delay: 0.2s;">
+                        <div class="arch-header">
+                            <span class="arch-chip vae">VAE</span>
+                            <span class="arch-tag">Task 2</span>
                         </div>
-                    </li>
-                </ul>
+                        <p class="arch-desc">潜在空间采样生成，重构损失与 KL 散度共同约束。</p>
+                        <div class="arch-rows">
+                            <div class="arch-row"><span class="arch-label">Encoder</span><span class="arch-value">Conv + BatchNorm</span></div>
+                            <div class="arch-row"><span class="arch-label">Latent</span><span class="arch-value">Reparameterize</span></div>
+                            <div class="arch-row"><span class="arch-label">Decoder</span><span class="arch-value">ConvTranspose</span></div>
+                        </div>
+                        <div class="arch-flow">
+                            <span class="flow-pill">Encode</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-pill">&mu;, &sigma;</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-pill">Sample z</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-pill">Decode</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Slide 3: Background -->
-        <div class="slide" data-type="split">
+        <!-- Slide 3: SimCLR Encoder -->
+        <div class="slide" data-type="code">
             <div class="slide-content split-layout">
                 <div class="text-col">
-                    <h2>背景：监督 vs 自监督</h2>
-                    <p>在 <b>CIFAR-10</b> 实验中，我们探讨两种范式：</p>
-                    <div class="feature-list">
-                        <div class="feature-item">
-                            <h3>SimCLR (Contrastive)</h3>
-                            <p>通过拉近同源样本（Augmented Views）的距离，学习具有<b>视图不变性</b>的表征。</p>
-                        </div>
-                        <div class="feature-item" style="border-left-color: #ea4335;">
-                            <h3>VAE (Generative)</h3>
-                            <p>学习数据的潜在分布 \( P(z|x) \)，实现数据的<b>压缩与生成</b>。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="visual-col">
-                    <div class="anim-concept-simclr">
-                        <!-- Origin starts center of this container -->
-                        <div class="circle origin">Img</div>
-                        
-                        <!-- Views split from origin -->
-                        <div class="circle view1">A</div>
-                        <div class="circle view2">B</div>
-                        
-                        <!-- Negatives are surrounding noise -->
-                        <div class="circle neg n1">Neg</div>
-                        <div class="circle neg n2">Neg</div>
-                        <div class="circle neg n3">Neg</div>
-                        <div class="circle neg n4">Neg</div>
-                    </div>
-                    <p class="caption">SimCLR 原理: <b>同源吸引，异源排斥</b></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 4: SimCLR Pipeline -->
-        <div class="slide">
-            <div class="slide-content">
-                <div class="badge">Task 01: SimCLR</div>
-                <h2>SimCLR 核心流程</h2>
-                <div class="flow-diagram-detailed">
-                    <div class="f-stage">
-                        <div class="f-box data">\( x \)</div>
-                        <div class="f-label">Input</div>
-                    </div>
-                    <div class="f-arrow">→</div>
-                    <div class="f-stage">
-                        <div class="f-group">
-                            <div class="f-box aug">\( \tilde{x}_i \)</div>
-                            <div class="f-box aug">\( \tilde{x}_j \)</div>
-                        </div>
-                        <div class="f-label">Augment</div>
-                    </div>
-                    <div class="f-arrow">→</div>
-                    <div class="f-stage">
-                        <div class="f-group">
-                            <div class="f-box rep">\( h_i \)</div>
-                            <div class="f-box rep">\( h_j \)</div>
-                        </div>
-                        <div class="f-label">Encoder<br>(ResNet)</div>
-                    </div>
-                    <div class="f-arrow">→</div>
-                    <div class="f-stage">
-                        <div class="f-group">
-                            <div class="f-box proj">\( z_i \)</div>
-                            <div class="f-box proj">\( z_j \)</div>
-                        </div>
-                        <div class="f-label">Projector<br>(MLP)</div>
-                    </div>
-                    <div class="f-arrow">→</div>
-                    <div class="f-box loss">Loss</div>
-                </div>
-                
-                <div class="code-snippet-box" style="margin-top: 24px;">
-                    <code>
-                        <span class="kw">class</span> SimpleEncoder(nn.Cell):<br>
-                        &nbsp;&nbsp;... Conv2d -> <span class="hl">GroupNorm(8, 64)</span> -> ReLU ...<br>
-                        &nbsp;&nbsp;... Conv2d -> <span class="hl">GroupNorm(16, 256)</span> -> ReLU ...
-                    </code>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 5: Data Augmentation -->
-        <div class="slide">
-            <div class="slide-content split-layout">
-                 <div class="text-col">
-                    <h2>关键：强数据增强 (Strong Augmentation)</h2>
-                    <p>代码 `simclr_augment` 实现了多种变换的组合，迫使模型学习物体本质特征而非颜色或纹理。</p>
+                    <div class="badge">SimCLR Encoder</div>
+                    <h2>适配小 Batch 的 GroupNorm</h2>
+                    <p class="slide-subtitle">CIFAR-10 训练 BatchSize=32，GroupNorm 让归一化不依赖 batch 统计。</p>
                     <ul class="checklist">
-                        <li><b>RandomResizedCrop:</b> 强迫关注局部（如狗头、狗腿）。</li>
-                        <li><b>ColorJitter:</b> 改变色彩分布，防止利用色彩直方图作弊。</li>
-                        <li><b>GaussianBlur:</b> 去除高频噪声，关注轮廓。</li>
+                        <li><b>稳定性:</b> 小 batch 下均值/方差更平稳。</li>
+                        <li><b>泛化:</b> 组内统计减少噪声放大。</li>
+                        <li><b>配置:</b> 64 通道分 8 组。</li>
                     </ul>
                 </div>
-                <div class="visual-col">
-                    <div class="aug-grid">
-                        <div class="aug-item">
-                            <div class="aug-img original"></div>
-                            <span>Original</span>
+                <div class="code-col">
+                    <div class="code-card">
+                        <div class="code-header">
+                            <span class="code-file">simclr_encoder.py</span>
+                            <span class="code-meta">GroupNorm(8, 64)</span>
                         </div>
-                        <div class="aug-item">
-                            <div class="aug-img crop"></div>
-                            <span>Crop</span>
-                        </div>
-                        <div class="aug-item">
-                            <div class="aug-img color"></div>
-                            <span>Color Jitter</span>
-                        </div>
-                        <div class="aug-item">
-                            <div class="aug-img blur"></div>
-                            <span>Blur</span>
+                        <div class="code-body">
+                            <div class="code-line" style="--delay: 0.1s;"><span class="code-accent">class</span> CNNEncoder(nn.Cell):</div>
+                            <div class="code-line" style="--delay: 0.2s;"><span class="code-indent"></span><span class="code-accent">def</span> __init__(self, out_dim=256):</div>
+                            <div class="code-line" style="--delay: 0.3s;"><span class="code-indent"></span><span class="code-indent"></span>self.features = nn.SequentialCell([</div>
+                            <div class="code-line" style="--delay: 0.4s;"><span class="code-indent"></span><span class="code-indent"></span><span class="code-indent"></span>nn.Conv2d(3, 64, kernel_size=3, padding=1),</div>
+                            <div class="code-line" style="--delay: 0.5s;"><span class="code-indent"></span><span class="code-indent"></span><span class="code-indent"></span><span class="code-highlight">nn.GroupNorm(8, 64)</span>,</div>
+                            <div class="code-line" style="--delay: 0.6s;"><span class="code-indent"></span><span class="code-indent"></span><span class="code-indent"></span>nn.ReLU(),</div>
+                            <div class="code-line code-dim" style="--delay: 0.7s;"><span class="code-indent"></span><span class="code-indent"></span><span class="code-indent"></span># ... 后续下采样层 ...</div>
+                            <div class="code-line" style="--delay: 0.8s;"><span class="code-indent"></span><span class="code-indent"></span>])</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 6: NT-Xent Loss -->
-        <div class="slide">
-            <div class="slide-content center">
-                <h2>NT-Xent 损失函数</h2>
-                <div class="equation-display">
-                    \[ \mathcal{L}_{i,j} = -\log \frac{\exp(\text{sim}(z_i, z_j) / \tau)}{\sum_{k=1}^{2N} \mathbb{1}_{[k \neq i]} \exp(\text{sim}(z_i, z_k) / \tau)} \]
-                </div>
-                <ul class="stagger-list horizontal-list">
-                    <li><b>Batch Size:</b> 32 (Subsampled)</li>
-                    <li><b>Temperature (\(\tau\)):</b> 0.5</li>
-                    <li><b>Optimizer:</b> Adam (lr=1e-3)</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Slide 7: SimCLR Results -->
-        <div class="slide">
-             <div class="slide-content">
-                <h2>SimCLR 训练收敛曲线 (60 Epochs)</h2>
-                <div class="chart-container">
-                    <svg viewBox="0 0 800 300" class="line-chart">
-                        <line x1="50" y1="250" x2="750" y2="250" stroke="#e0e3e1" />
-                        <line x1="50" y1="50" x2="50" y2="250" stroke="#e0e3e1" />
-                        <text x="30" y="50" class="chart-axis-text">4.2</text>
-                        <text x="30" y="250" class="chart-axis-text">3.0</text>
-                        
-                        <path class="anim-path" d="
-                            M 50, 70 
-                            L 150, 85 
-                            L 250, 150 
-                            L 350, 140 
-                            L 450, 155 
-                            L 550, 190 
-                            L 650, 205
-                            L 750, 200" 
-                            fill="none" stroke="#ea4335" stroke-width="3" />
-                        
-                        <circle cx="50" cy="70" r="4" fill="#ea4335" />
-                        <circle cx="750" cy="200" r="4" fill="#ea4335" />
-
-                        <text x="50" y="270" class="chart-axis-text">0</text>
-                        <text x="750" y="270" class="chart-axis-text">60 Epochs</text>
-                    </svg>
-                    <div class="chart-labels">
-                        <span>Initial Loss: ~4.08</span>
-                        <span>Final Loss: ~3.28</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 8: t-SNE -->
-        <div class="slide">
-             <div class="slide-content split-layout">
-                <div class="text-col">
-                    <h2>表征可视化 (t-SNE)</h2>
-                    <p>对测试集进行编码并降维：</p>
-                    <ul class="checklist">
-                        <li><b>Cluster Separation:</b> 同类样本（如车辆、动物）开始展现聚类趋势。</li>
-                        <li><b>Semantic Structure:</b> 相似语义的类别距离较近。</li>
-                    </ul>
-                </div>
-                <div class="visual-col">
-                    <div class="scatter-plot">
-                        <!-- Dots that will scatter from center -->
-                        <div class="dot-group d1" style="--tx: -80px; --ty: -80px; background:#4285f4;"></div>
-                        <div class="dot-group d2" style="--tx: 80px; --ty: 80px; background:#ea4335;"></div>
-                        <div class="dot-group d3" style="--tx: 80px; --ty: -80px; background:#fbbc04;"></div>
-                        <div class="dot-group d4" style="--tx: -80px; --ty: 80px; background:#34a853;"></div>
-                        
-                        <div class="dot-group d1" style="--tx: -60px; --ty: -90px; background:#4285f4; opacity: 0.6;"></div>
-                        <div class="dot-group d2" style="--tx: 90px; --ty: 70px; background:#ea4335; opacity: 0.6;"></div>
-                    </div>
-                    <p class="caption" style="position:absolute; bottom:10px;">t-SNE on 20 Test Samples</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 9: VAE Intro -->
-        <div class="slide">
-             <div class="slide-content center">
-                <div class="badge" style="background: #e8f0fe; color: #1a73e8;">Task 02: VAE</div>
-                <h2>VAE: 变分自编码器</h2>
-                <p class="hero-desc">
-                    结合神经网络与概率图模型。<br>
-                    核心在于重参数化技巧 (Reparameterization Trick)。
-                </p>
-            </div>
-        </div>
-
-        <!-- Slide 10: VAE Architecture -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>VAE 网络架构 (Latent Dim = 128)</h2>
-                <div class="vae-diagram-detailed">
-                    <div class="vae-block encoder">
-                        <h3>Encoder</h3>
-                        <p>Conv2d -> BatchNorm</p>
-                    </div>
-                    <div class="vae-arrow">→</div>
-                    <div class="vae-block latent">
-                        <h3>Latent</h3>
-                        <p>\( \mu, \sigma \)</p>
-                        <div class="reparam-box">Sample \( z \)</div>
-                    </div>
-                    <div class="vae-arrow">→</div>
-                    <div class="vae-block decoder">
-                        <h3>Decoder</h3>
-                        <p>ConvTranspose</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 11: VAE Loss & Beta Annealing -->
-        <div class="slide">
-             <div class="slide-content">
-                <h2>VAE 损失函数与 Beta Annealing</h2>
-                <div class="equation-display" style="font-size: 20px;">
-                    \[ \mathcal{L} = \mathcal{L}_{recon} + \beta \cdot \mathcal{L}_{KL} \]
-                </div>
-                <div class="chart-container" style="height: 250px;">
-                    <svg viewBox="0 0 800 250" class="line-chart">
-                        <line x1="50" y1="220" x2="750" y2="220" stroke="#e0e3e1" />
-                        <line x1="50" y1="20" x2="50" y2="220" stroke="#e0e3e1" />
-                        
-                        <path class="anim-path p1" d="M 50, 30 Q 200, 60 750, 65" fill="none" stroke="#ea4335" stroke-width="3" stroke-dasharray="5,5" />
-                        <text x="760" y="65" fill="#ea4335" font-size="12">Recon</text>
-
-                        <path class="anim-path p2" d="M 50, 190 Q 200, 210 750, 215" fill="none" stroke="#34a853" stroke-width="3" />
-                        <text x="760" y="215" fill="#34a853" font-size="12">KL</text>
-
-                        <path class="anim-path p3" d="M 50, 210 L 250, 20 L 750, 20" fill="none" stroke="#4285f4" stroke-width="2" opacity="0.5" />
-                        <text x="260" y="35" fill="#4285f4" font-size="12">Beta</text>
-                    </svg>
-                </div>
-                <p class="caption">Warmup Ratio = 0.3 (First 6 Epochs)</p>
-            </div>
-        </div>
-
-        <!-- Slide 12: VAE Results -->
-        <div class="slide">
+        <!-- Slide 4: SimCLR Projection Head -->
+        <div class="slide" data-type="code">
             <div class="slide-content split-layout">
                 <div class="text-col">
-                    <h2>图像重构与生成</h2>
+                    <div class="badge">SimCLR Projection</div>
+                    <h2>投影头：特征空间的非线性转换</h2>
+                    <p class="slide-subtitle">两层 MLP 将语义特征映射到紧凑嵌入空间，提升对比鲁棒性。</p>
                     <ul class="checklist">
-                        <li><b>Reconstruction:</b> 能够还原物体轮廓，但纹理模糊。</li>
-                        <li><b>Generation:</b> 生成样本具有与训练集相似的全局结构。</li>
+                        <li><b>输入维度:</b> 256 维编码表征。</li>
+                        <li><b>归一化:</b> LayerNorm 稳定嵌入尺度。</li>
+                        <li><b>输出维度:</b> 128 维对比空间。</li>
                     </ul>
                 </div>
-                <div class="visual-col">
-                    <div class="grid-compare">
-                        <div class="compare-pair">
-                            <span class="cp-label">Input</span>
-                            <div class="img-orig"></div>
+                <div class="code-col">
+                    <div class="code-card">
+                        <div class="code-header">
+                            <span class="code-file">simclr_projection.py</span>
+                            <span class="code-meta">MLP + LayerNorm</span>
                         </div>
-                        <div class="compare-pair">
-                            <span class="cp-label">Recon</span>
-                            <div class="img-recon"></div>
+                        <div class="code-body">
+                            <div class="code-line" style="--delay: 0.1s;"><span class="code-accent">class</span> <span class="code-accent">ProjectionHead</span>(nn.Cell):</div>
+                            <div class="code-line" style="--delay: 0.2s;"><span class="code-indent"></span><span class="code-accent">def</span> __init__(self, in_dim, proj_dim=128):</div>
+                            <div class="code-line" style="--delay: 0.3s;"><span class="code-indent"></span><span class="code-indent"></span>self.net = nn.SequentialCell([</div>
+                            <div class="code-line" style="--delay: 0.4s;"><span class="code-indent"></span><span class="code-indent"></span><span class="code-indent"></span>nn.Dense(in_dim, in_dim),</div>
+                            <div class="code-line" style="--delay: 0.5s;"><span class="code-indent"></span><span class="code-indent"></span><span class="code-indent"></span><span class="code-underline">nn.LayerNorm((in_dim,))</span>,</div>
+                            <div class="code-line" style="--delay: 0.6s;"><span class="code-indent"></span><span class="code-indent"></span><span class="code-indent"></span>nn.ReLU(),</div>
+                            <div class="code-line" style="--delay: 0.7s;"><span class="code-indent"></span><span class="code-indent"></span><span class="code-indent"></span>nn.Dense(in_dim, proj_dim)</div>
+                            <div class="code-line" style="--delay: 0.8s;"><span class="code-indent"></span><span class="code-indent"></span>])</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 13: Conclusion -->
-        <div class="slide">
-            <div class="slide-content center">
-                <h2>结论与展望</h2>
-                <div class="checklist-card">
-                    <div class="check-item">
-                        <div class="check-icon">✓</div>
-                        <div class="check-text"><b>SimCLR:</b> 数据增强是关键。</div>
+        <!-- Slide 5: VAE Reparameterization -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content">
+                <div class="badge">VAE Core</div>
+                <h2>重参数化：让采样可微</h2>
+                <p class="slide-subtitle">通过噪声分离，使梯度绕过随机采样并回传到 Encoder。</p>
+
+                <div class="analysis-grid">
+                    <div class="formula-card" style="--delay: 0.1s;">
+                        <div class="formula-title">数学表达</div>
+                        <div class="formula-body">
+                            \[ z = \mu + \sigma \odot \epsilon \]
+                        </div>
+                        <p class="formula-note">将随机性放在 \(\epsilon\) 上，保证 \(\mu, \sigma\) 可微。</p>
                     </div>
-                    <div class="check-item">
-                        <div class="check-icon">✓</div>
-                        <div class="check-text"><b>VAE:</b> Beta Annealing 有效平衡 KL 散度。</div>
+                    <div class="code-card" style="--delay: 0.2s;">
+                        <div class="code-header">
+                            <span class="code-file">vae_reparam.py</span>
+                            <span class="code-meta">Reparameterize</span>
+                        </div>
+                        <div class="code-body">
+                            <div class="code-line" style="--delay: 0.2s;"><span class="code-accent">def</span> reparameterize(self, mu, logvar):</div>
+                            <div class="code-line" style="--delay: 0.3s;"><span class="code-indent"></span>std = ops.exp(0.5 * logvar)</div>
+                            <div class="code-line" style="--delay: 0.4s;"><span class="code-indent"></span>eps = ops.<span class="code-focus">standard_normal</span>(mu.shape)</div>
+                            <div class="code-line" style="--delay: 0.5s;"><span class="code-indent"></span><span class="code-pop">z = mu + eps * std</span></div>
+                            <div class="code-line" style="--delay: 0.6s;"><span class="code-indent"></span>return z</div>
+                        </div>
                     </div>
-                    <div class="check-item future">
-                        <div class="check-icon">→</div>
-                        <div class="check-text"><b>Future:</b> 尝试 ResNet Encoder 或 VQ-VAE。</div>
-                    </div>
-                </div>
-                <div class="end-anim">
-                    Thanks for watching
                 </div>
             </div>
         </div>
