@@ -671,7 +671,10 @@ p, li { font-size: 18px; line-height: 1.6; color: var(--color-on-surface-variant
 
 /* --- Section Divider --- */
 .slide-content.section-break {
-    background: linear-gradient(130deg, #1a73e8, #6f7cf6, #d96570);
+    background:
+        radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%),
+        radial-gradient(circle at 82% 75%, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0) 55%),
+        linear-gradient(135deg, #3b73f0 0%, #8a7cf0 40%, #e58aa5 70%, #f4bf84 100%);
     background-size: 200% 200%;
     color: #ffffff;
     display: flex;
