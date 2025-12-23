@@ -410,7 +410,7 @@ body {
 @keyframes diag-mask {
     0% { background: #fce8e6; box-shadow: 0 0 0 rgba(217, 48, 37, 0); }
     60% { background: #fce8e6; box-shadow: 0 0 12px rgba(217, 48, 37, 0.25); }
-    100% { background: #e0e3e1; box-shadow: none; }
+    100% { background: #fce8e6; box-shadow: 0 0 0 rgba(217, 48, 37, 0); }
 }
 @keyframes underline-draw {
     0% { width: 0; }
