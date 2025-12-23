@@ -366,6 +366,194 @@
             </div>
         </div>
 
+        <!-- Slide 9: Lab4-1 Overview -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content split-layout">
+                <div class="text-col">
+                    <div class="badge">SECTION 04-1</div>
+                    <h2>SimCLR 对比实验概览</h2>
+                    <p class="slide-subtitle">基于 CIFAR-10 的参数对比与表现分析（MindSpore 复现）。</p>
+                    <ul class="checklist">
+                        <li><b>数据量:</b> 1k to 5k</li>
+                        <li><b>训练轮数:</b> 50 to 100</li>
+                        <li><b>温度系数:</b> tau = 0.5 / 0.1 / 0.07</li>
+                        <li><b>下游评估:</b> 线性分类检验表征质量</li>
+                    </ul>
+                </div>
+                <div class="text-col">
+                    <div class="table-card">
+                        <div class="table-title">实验配置与最终 Loss（来自 ipynb 日志）</div>
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Experiment</th>
+                                    <th>Samples</th>
+                                    <th>Epochs</th>
+                                    <th>tau</th>
+                                    <th>Final Loss</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Baseline</td>
+                                    <td>1k</td>
+                                    <td>50</td>
+                                    <td>0.5</td>
+                                    <td>2.7467</td>
+                                </tr>
+                                <tr>
+                                    <td>Data +5x</td>
+                                    <td>5k</td>
+                                    <td>50</td>
+                                    <td>0.5</td>
+                                    <td>2.5763</td>
+                                </tr>
+                                <tr>
+                                    <td>Epoch +2x</td>
+                                    <td>1k</td>
+                                    <td>100</td>
+                                    <td>0.5</td>
+                                    <td>2.6046</td>
+                                </tr>
+                                <tr>
+                                    <td>Temp 0.1</td>
+                                    <td>1k</td>
+                                    <td>50</td>
+                                    <td>0.1</td>
+                                    <td>0.4654</td>
+                                </tr>
+                                <tr class="row-highlight">
+                                    <td>Temp 0.07</td>
+                                    <td>1k</td>
+                                    <td>50</td>
+                                    <td>0.07</td>
+                                    <td>0.4046</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="table-note">所有 Loss 数值来自对应 ipynb 的训练日志。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Augmentation & Similarity -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content">
+                <div class="badge">Lab4-1 Visualization</div>
+                <h2>增强视角与相似度可视化</h2>
+                <p class="slide-subtitle">展示 ipynb 输出的增强样本与相似度矩阵图像。</p>
+                <div class="media-grid">
+                    <div class="media-card" style="--delay: 0.1s;">
+                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/augmentation.png" alt="SimCLR Augmentation Examples">
+                        <div class="media-caption">Strong Augmentation Examples (CIFAR-10)</div>
+                    </div>
+                    <div class="media-card" style="--delay: 0.2s;">
+                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/similarity.png" alt="Similarity Matrix Visualization">
+                        <div class="media-caption">Similarity Matrix Visualization (Batch)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Loss Curve Comparison -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content">
+                <div class="badge">Loss Curves</div>
+                <h2>不同参数的收敛对比</h2>
+                <p class="slide-subtitle">曲线数据严格来自各实验 ipynb 训练日志（Epoch 1-50）。</p>
+                <div class="loss-chart-card">
+                    <svg class="loss-chart" viewBox="0 0 760 340" aria-label="Loss curve comparison">
+                        <line class="loss-axis" x1="70" y1="30" x2="70" y2="280"></line>
+                        <line class="loss-axis" x1="70" y1="280" x2="730" y2="280"></line>
+                        <line class="loss-grid" x1="70" y1="30" x2="730" y2="30"></line>
+                        <line class="loss-grid" x1="70" y1="69.5" x2="730" y2="69.5"></line>
+                        <line class="loss-grid" x1="70" y1="122.1" x2="730" y2="122.1"></line>
+                        <line class="loss-grid" x1="70" y1="174.7" x2="730" y2="174.7"></line>
+                        <line class="loss-grid" x1="70" y1="227.4" x2="730" y2="227.4"></line>
+                        <line class="loss-grid" x1="70" y1="280" x2="730" y2="280"></line>
+
+                        <text class="loss-axis-text" x="52" y="33">4.2</text>
+                        <text class="loss-axis-text" x="52" y="72">3.6</text>
+                        <text class="loss-axis-text" x="52" y="125">2.8</text>
+                        <text class="loss-axis-text" x="52" y="177">2.0</text>
+                        <text class="loss-axis-text" x="52" y="230">1.2</text>
+                        <text class="loss-axis-text" x="52" y="283">0.4</text>
+
+                        <text class="loss-axis-text" x="70" y="305">1</text>
+                        <text class="loss-axis-text" x="191.2" y="305">10</text>
+                        <text class="loss-axis-text" x="325.9" y="305">20</text>
+                        <text class="loss-axis-text" x="460.6" y="305">30</text>
+                        <text class="loss-axis-text" x="595.3" y="305">40</text>
+                        <text class="loss-axis-text" x="730" y="305">50</text>
+
+                        <text class="loss-axis-label" x="380" y="330">Epoch</text>
+                        <text class="loss-axis-label" x="20" y="170" transform="rotate(-90 20 170)">Loss</text>
+
+                        <path class="loss-line line-baseline" d="M 70.0,34.6 L 123.9,63.9 L 191.2,88.6 L 258.6,99.5 L 325.9,104.8 L 393.3,109.0 L 460.6,114.1 L 528.0,118.5 L 595.3,121.4 L 662.7,123.2 L 730.0,125.6"></path>
+                        <path class="loss-line line-data" d="M 70.0,69.1 L 123.9,113.4 L 191.2,123.0 L 258.6,127.5 L 325.9,129.4 L 393.3,131.6 L 460.6,132.3 L 528.0,134.0 L 595.3,134.9 L 662.7,135.6 L 730.0,136.8"></path>
+                        <path class="loss-line line-temp01" d="M 70.0,45.0 L 123.9,84.5 L 191.2,140.4 L 258.6,193.7 L 325.9,229.3 L 393.3,236.8 L 460.6,248.2 L 528.0,256.9 L 595.3,259.7 L 662.7,271.0 L 730.0,275.7"></path>
+                        <path class="loss-line line-temp007" d="M 70.0,45.4 L 123.9,65.5 L 191.2,132.8 L 258.6,188.7 L 325.9,205.1 L 393.3,237.6 L 460.6,255.4 L 528.0,257.4 L 595.3,264.4 L 662.7,268.1 L 730.0,279.7"></path>
+
+                        <circle class="loss-point line-baseline" cx="730" cy="125.6" r="4"></circle>
+                        <circle class="loss-point line-data" cx="730" cy="136.8" r="4"></circle>
+                        <circle class="loss-point line-temp01" cx="730" cy="275.7" r="4"></circle>
+                        <circle class="loss-point line-temp007" cx="730" cy="279.7" r="4"></circle>
+                    </svg>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-dot line-baseline"></span>Baseline (1k, tau=0.5)</div>
+                        <div class="legend-item"><span class="legend-dot line-data"></span>Data 5k (tau=0.5)</div>
+                        <div class="legend-item"><span class="legend-dot line-temp01"></span>Temp 0.1</div>
+                        <div class="legend-item"><span class="legend-dot line-temp007"></span>Temp 0.07</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: t-SNE & Linear Eval -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content split-layout">
+                <div class="text-col">
+                    <div class="badge">Representation</div>
+                    <h2>t-SNE 表征分布</h2>
+                    <p class="slide-subtitle">ipynb 输出图像展示特征在低维空间的聚类趋势。</p>
+                    <div class="metric-card">
+                        <div class="metric-label">Linear Evaluation Accuracy</div>
+                        <div class="metric-value">37.5%</div>
+                        <div class="metric-note">LogisticRegression on CIFAR-10</div>
+                    </div>
+                </div>
+                <div class="text-col">
+                    <div class="media-card large" style="--delay: 0.2s;">
+                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/tsne.png" alt="t-SNE Visualization">
+                        <div class="media-caption">t-SNE Visualization (Test Samples)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Lab4-1 Conclusion -->
+        <div class="slide" data-type="summary">
+            <div class="slide-content center">
+                <div class="badge">Conclusion</div>
+                <h2>Lab4-1 结果结论</h2>
+                <div class="checklist-card">
+                    <div class="check-item">
+                        <div class="check-icon">✓</div>
+                        <div class="check-text"><b>Temperature:</b> tau 从 0.5 降到 0.07 带来最大 Loss 改善。</div>
+                    </div>
+                    <div class="check-item">
+                        <div class="check-icon">✓</div>
+                        <div class="check-text"><b>Data & Epoch:</b> 数据量与训练轮数提升可稳定降低 Loss，但边际收益递减。</div>
+                    </div>
+                    <div class="check-item">
+                        <div class="check-icon">✓</div>
+                        <div class="check-text"><b>Representation:</b> 线性评估准确率 37.5% 证明自监督特征有效。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="presentation.js"></script>

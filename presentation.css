@@ -353,6 +353,117 @@ body {
 }
 .legend-chip.diag { background: #fce8e6; color: #d93025; }
 
+/* --- Section 04 Results --- */
+.table-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #e0e3e1;
+    padding: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+        opacity 0.6s var(--ease-in-out-smooth),
+        transform 0.8s var(--ease-out-expo);
+}
+.slide.active .table-card { opacity: 1; transform: translateY(0); }
+.table-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: #5f6368; margin-bottom: 12px; }
+.comparison-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.comparison-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #5f6368; padding: 8px 6px; }
+.comparison-table td { padding: 8px 6px; border-top: 1px solid #eef0f2; color: #1f1f1f; }
+.comparison-table tr.row-highlight td { background: #fce8e6; font-weight: 600; }
+.table-note { margin-top: 10px; font-size: 12px; color: #5f6368; }
+
+.media-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+.media-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #e0e3e1;
+    padding: 16px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+        opacity 0.6s var(--ease-in-out-smooth),
+        transform 0.8s var(--ease-out-expo);
+    transition-delay: var(--delay, 0s);
+}
+.slide.active .media-card { opacity: 1; transform: translateY(0); }
+.media-card.large { padding: 18px; }
+.media-img {
+    width: 100%;
+    height: 260px;
+    object-fit: contain;
+    background: #f7f8fa;
+    border-radius: 16px;
+}
+.media-card.large .media-img { height: 320px; }
+.media-caption { margin-top: 12px; font-size: 13px; color: #5f6368; }
+
+.loss-chart-card {
+    background: #ffffff;
+    border-radius: 28px;
+    border: 1px solid #e0e3e1;
+    padding: 20px 24px 16px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+.loss-chart { width: 100%; height: 340px; }
+.loss-axis { stroke: #e0e3e1; stroke-width: 1.2; }
+.loss-grid { stroke: #f1f3f4; stroke-width: 1; stroke-dasharray: 4 4; }
+.loss-axis-text { font-size: 11px; fill: #8a9096; }
+.loss-axis-label { font-size: 12px; fill: #5f6368; }
+.loss-line {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    transition: stroke-dashoffset 2.4s var(--ease-out-expo);
+}
+.slide.active .loss-line { stroke-dashoffset: 0; }
+.loss-line.line-baseline { stroke: #5f6368; transition-delay: 0.1s; }
+.loss-line.line-data { stroke: #1a73e8; transition-delay: 0.2s; }
+.loss-line.line-temp01 { stroke: #ea4335; transition-delay: 0.3s; }
+.loss-line.line-temp007 { stroke: #9b72cb; transition-delay: 0.4s; }
+.loss-point {
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: center;
+    transition:
+        opacity 0.6s var(--ease-in-out-smooth),
+        transform 0.8s var(--ease-out-expo);
+}
+.slide.active .loss-point { opacity: 1; transform: scale(1); transition-delay: 2.2s; }
+.loss-point.line-baseline { fill: #5f6368; }
+.loss-point.line-data { fill: #1a73e8; }
+.loss-point.line-temp01 { fill: #ea4335; }
+.loss-point.line-temp007 { fill: #9b72cb; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 12px 18px; margin-top: 14px; font-size: 12px; color: #5f6368; }
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }
+.legend-dot.line-baseline { background: #5f6368; }
+.legend-dot.line-data { background: #1a73e8; }
+.legend-dot.line-temp01 { background: #ea4335; }
+.legend-dot.line-temp007 { background: #9b72cb; }
+
+.metric-card {
+    margin-top: 24px;
+    background: #f8f9fa;
+    border-radius: 20px;
+    border: 1px solid #e0e3e1;
+    padding: 20px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+        opacity 0.6s var(--ease-in-out-smooth),
+        transform 0.8s var(--ease-out-expo);
+}
+.slide.active .metric-card { opacity: 1; transform: translateY(0); }
+.metric-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #5f6368; margin-bottom: 8px; }
+.metric-value { font-size: 36px; font-weight: 600; color: #1a73e8; }
+.metric-note { font-size: 13px; color: #5f6368; margin-top: 6px; }
+
 /* --- Gradient Formula Card --- */
 /* --- Reparameterization Layout --- */
 .analysis-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin-top: 32px; align-items: center; }
@@ -427,6 +538,8 @@ body {
     .dual-card-grid { grid-template-columns: 1fr; }
     .analysis-grid { grid-template-columns: 1fr; }
     .code-card { max-width: 100%; }
+    .media-grid { grid-template-columns: 1fr; }
+    .loss-chart { height: 280px; }
 }
 
 /* --- Typography --- */
