@@ -217,6 +217,155 @@
             </div>
         </div>
 
+        <!-- Slide 6: Strong Augmentation -->
+        <div class="slide" data-type="code">
+            <div class="slide-content split-layout">
+                <div class="text-col">
+                    <div class="badge">SECTION 03</div>
+                    <h2>SimCLR 优化：强数据增强</h2>
+                    <p class="slide-subtitle">随机裁剪、翻转与颜色抖动构造困难正样本对，逼迫模型关注结构。</p>
+                    <ul class="checklist">
+                        <li><b>RandomResizedCrop:</b> 强化局部视角。</li>
+                        <li><b>Flip & Jitter:</b> 弱化颜色偏置。</li>
+                        <li><b>Normalize:</b> 统一数值尺度。</li>
+                    </ul>
+                    <div class="augmentation-chips">
+                        <span class="aug-chip">Crop</span>
+                        <span class="aug-chip">Flip</span>
+                        <span class="aug-chip">Brightness</span>
+                        <span class="aug-chip">Normalize</span>
+                    </div>
+                </div>
+                <div class="code-col">
+                    <div class="code-card flicker" style="--delay: 0.1s;">
+                        <div class="code-header">
+                            <span class="code-file">data_augmentation.py</span>
+                            <span class="code-meta">Strong Augment</span>
+                        </div>
+                        <div class="code-body">
+                            <div class="code-line" style="--delay: 0.1s;"><span class="code-accent">def</span> simclr_augment(image):</div>
+                            <div class="code-line code-dim" style="--delay: 0.2s;"><span class="code-indent"></span># 组合多种强增强策略</div>
+                            <div class="code-line" style="--delay: 0.3s;"><span class="code-indent"></span>img = <span class="code-highlight">random_resized_crop</span>(img)</div>
+                            <div class="code-line" style="--delay: 0.4s;"><span class="code-indent"></span><span class="code-accent">if</span> random.random() &lt; 0.5:</div>
+                            <div class="code-line" style="--delay: 0.5s;"><span class="code-indent"></span><span class="code-indent"></span>img = img.transpose(Image.FLIP_LEFT_RIGHT)</div>
+                            <div class="code-line" style="--delay: 0.6s;"><span class="code-indent"></span><span class="code-accent">if</span> random.random() &lt; 0.8:</div>
+                            <div class="code-line code-dim" style="--delay: 0.7s;"><span class="code-indent"></span><span class="code-indent"></span># 颜色抖动：亮度、对比度、饱和度</div>
+                            <div class="code-line" style="--delay: 0.8s;"><span class="code-indent"></span><span class="code-indent"></span>img = <span class="code-underline">ImageEnhance.Brightness</span>(img).enhance(random.uniform(0.6, 1.4))</div>
+                            <div class="code-line" style="--delay: 0.9s;"><span class="code-indent"></span><span class="code-accent">return</span> normalize(np.array(img))</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: NT-Xent Loss -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content split-layout">
+                <div class="text-col">
+                    <div class="badge">NT-Xent</div>
+                    <h2>对比损失：屏蔽自相似项</h2>
+                    <p class="slide-subtitle">2N 样本相似度矩阵中，对角线用极大负值遮盖，避免模型“偷懒”。</p>
+                    <div class="matrix-card" style="--delay: 0.2s;">
+                        <div class="matrix-header">Similarity Matrix (2N × 2N)</div>
+                        <div class="matrix-grid">
+                            <span class="matrix-cell diag"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell diag"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell diag"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell diag"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell diag"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell"></span>
+                            <span class="matrix-cell diag"></span>
+                        </div>
+                        <div class="matrix-legend">
+                            <span class="legend-chip diag">Masked Diagonal</span>
+                            <span class="legend-chip">Positive/Negative Pairs</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-col">
+                    <div class="code-card" style="--delay: 0.1s;">
+                        <div class="code-header">
+                            <span class="code-file">nt_xent_logic.py</span>
+                            <span class="code-meta">Contrastive Loss</span>
+                        </div>
+                        <div class="code-body">
+                            <div class="code-line" style="--delay: 0.1s;"><span class="code-accent">def</span> nt_xent_loss(z1, z2, temperature=0.5):</div>
+                            <div class="code-line code-dim" style="--delay: 0.2s;"><span class="code-indent"></span># 计算余弦相似度矩阵</div>
+                            <div class="code-line" style="--delay: 0.3s;"><span class="code-indent"></span>similarity = ops.matmul(z, z.T) / temperature</div>
+                            <div class="code-line code-dim" style="--delay: 0.4s;"><span class="code-indent"></span># 屏蔽对角线（自相似项）</div>
+                            <div class="code-line" style="--delay: 0.5s;"><span class="code-indent"></span>logits = <span class="code-highlight">similarity - 1e9 * ops.eye(2 * batch_size)</span></div>
+                            <div class="code-line code-dim" style="--delay: 0.6s;"><span class="code-indent"></span># 计算交叉熵，最大化正样本对相似度</div>
+                            <div class="code-line" style="--delay: 0.7s;"><span class="code-indent"></span><span class="code-block-highlight">loss = -ops.log(ops.exp(pos / temperature) / denom)</span></div>
+                            <div class="code-line" style="--delay: 0.8s;"><span class="code-indent"></span><span class="code-accent">return</span> ops.mean(loss)</div>
+                        </div>
+                        <div class="code-note">Masking Self-Similarity prevents trivial collapse.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: KL Annealing -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content">
+                <div class="badge">VAE Optimization</div>
+                <h2>KL Annealing：逐步加权 KL 散度</h2>
+                <p class="slide-subtitle">Warmup 让模型先学会重构，再逐步收紧潜在分布。</p>
+
+                <div class="analysis-grid">
+                    <div class="formula-card gradient" style="--delay: 0.1s;">
+                        <div class="formula-title">Beta Schedule</div>
+                        <div class="formula-body">
+                            \[ \beta = \beta_{min} + (\beta_{max} - \beta_{min}) \cdot \text{ramp} \]
+                        </div>
+                        <p class="formula-note">线性 warmup 防止 encoder 早期塌陷。</p>
+                    </div>
+                    <div class="code-card" style="--delay: 0.2s;">
+                        <div class="code-header">
+                            <span class="code-file">kl_annealing.py</span>
+                            <span class="code-meta">Beta Ramp</span>
+                        </div>
+                        <div class="code-body">
+                            <div class="code-line code-dim" style="--delay: 0.2s;"># 训练循环中的 Beta 调度 (KL Annealing)</div>
+                            <div class="code-line" style="--delay: 0.3s;">progress = global_step / max(1, total_steps - 1)</div>
+                            <div class="code-line code-dim" style="--delay: 0.4s;"># 线性增加 KL 散度的权重，防止训练初期塌陷</div>
+                            <div class="code-line" style="--delay: 0.5s;"><span class="code-focus">ramp</span> = progress * (1 / WARMUP_RATIO) if progress &lt; WARMUP_RATIO else 1.0</div>
+                            <div class="code-line" style="--delay: 0.6s;"><span class="code-click">beta = MIN_BETA + (MAX_BETA - MIN_BETA) * ramp</span></div>
+                            <div class="code-line" style="--delay: 0.7s;">total_loss = recon_loss + beta * kl_loss</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="presentation.js"></script>
