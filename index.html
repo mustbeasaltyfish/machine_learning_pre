@@ -554,6 +554,111 @@
             </div>
         </div>
 
+        <!-- Slide 14: Lab4-2 Overview -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content">
+                <div class="badge">SECTION 04-2</div>
+                <h2>VAE 实验结果概览</h2>
+                <p class="slide-subtitle">基于 CIFAR-10 的 VAE 复现，包含 KL Annealing 与多视角可视化结果。</p>
+                <div class="overview-grid">
+                    <div class="overview-card" style="--delay: 0.1s;">
+                        <div class="overview-title">Loss Curves</div>
+                        <p>3 子图展示 total / recon / KL 的训练轨迹。</p>
+                    </div>
+                    <div class="overview-card" style="--delay: 0.2s;">
+                        <div class="overview-title">Reconstruction</div>
+                        <p>输入与重构图对比，观察轮廓与纹理保真。</p>
+                    </div>
+                    <div class="overview-card" style="--delay: 0.3s;">
+                        <div class="overview-title">Generation</div>
+                        <p>从潜在空间采样生成，展示多样性与结构。</p>
+                    </div>
+                    <div class="overview-card" style="--delay: 0.4s;">
+                        <div class="overview-title">Latent t-SNE</div>
+                        <p>潜在空间降维分布，评估表征可分性。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: VAE Loss Curves -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content">
+                <div class="badge">VAE Training</div>
+                <h2>损失曲线可视化</h2>
+                <p class="slide-subtitle">ipynb 输出的 3 子图曲线（total / recon / KL）。</p>
+                <div class="image-frame">
+                    <div class="image-reveal">
+                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-2_VAE/images/vae_loss.png" alt="VAE Loss Curves">
+                    </div>
+                    <div class="media-caption">Loss Curves from lab4-2_merged.ipynb</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Reconstruction & Generation -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content">
+                <div class="badge">VAE Outputs</div>
+                <h2>重构与生成结果</h2>
+                <p class="slide-subtitle">模型在 CIFAR-10 上的重构质量与采样生成。</p>
+                <div class="media-grid">
+                    <div class="media-card" style="--delay: 0.1s;">
+                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-2_VAE/images/vae_recon.png" alt="VAE Reconstruction">
+                        <div class="media-caption">Reconstruction Comparison</div>
+                    </div>
+                    <div class="media-card" style="--delay: 0.2s;">
+                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-2_VAE/images/vae_gen.png" alt="VAE Generation Samples">
+                        <div class="media-caption">Random Generation Samples</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Latent t-SNE -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content split-layout">
+                <div class="text-col">
+                    <div class="badge">Latent Space</div>
+                    <h2>潜在空间 t-SNE 分布</h2>
+                    <p class="slide-subtitle">从编码器输出的潜在向量降维，观察类别聚类趋势。</p>
+                    <ul class="checklist">
+                        <li><b>结构:</b> 潜在空间呈现类内聚集。</li>
+                        <li><b>分离:</b> 不同类别具备区分边界。</li>
+                        <li><b>可视化:</b> 图像来自 ipynb 输出。</li>
+                    </ul>
+                </div>
+                <div class="text-col">
+                    <div class="media-card large" style="--delay: 0.2s;">
+                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-2_VAE/images/vae_tsne.png" alt="VAE t-SNE Visualization">
+                        <div class="media-caption">Latent t-SNE Visualization</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Lab4-2 Conclusion -->
+        <div class="slide" data-type="summary">
+            <div class="slide-content center">
+                <div class="badge">Conclusion</div>
+                <h2>Lab4-2 结果结论</h2>
+                <div class="checklist-card">
+                    <div class="check-item">
+                        <div class="check-icon">✓</div>
+                        <div class="check-text"><b>Loss:</b> KL Annealing 使训练曲线更平稳，避免早期塌缩。</div>
+                    </div>
+                    <div class="check-item">
+                        <div class="check-icon">✓</div>
+                        <div class="check-text"><b>Reconstruction:</b> 能较好保留轮廓与主要结构。</div>
+                    </div>
+                    <div class="check-item">
+                        <div class="check-icon">✓</div>
+                        <div class="check-text"><b>Generation:</b> 潜在空间采样具备可视化多样性。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="presentation.js"></script>

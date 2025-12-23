@@ -464,6 +464,57 @@ body {
 .metric-value { font-size: 36px; font-weight: 600; color: #1a73e8; }
 .metric-note { font-size: 13px; color: #5f6368; margin-top: 6px; }
 
+/* --- Lab4-2 Overview --- */
+.overview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.overview-card {
+    background: #f8f9fa;
+    border-radius: 20px;
+    border: 1px solid #e0e3e1;
+    padding: 18px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+        opacity 0.6s var(--ease-in-out-smooth),
+        transform 0.8s var(--ease-out-expo);
+    transition-delay: var(--delay, 0s);
+}
+.slide.active .overview-card { opacity: 1; transform: translateY(0); }
+.overview-title { font-size: 13px; font-weight: 600; color: #1f1f1f; margin-bottom: 8px; }
+.overview-card p { margin: 0; font-size: 14px; color: #5f6368; }
+
+.image-frame {
+    background: #ffffff;
+    border-radius: 28px;
+    border: 1px solid #e0e3e1;
+    padding: 18px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+        opacity 0.6s var(--ease-in-out-smooth),
+        transform 0.8s var(--ease-out-expo);
+}
+.slide.active .image-frame { opacity: 1; transform: translateY(0); }
+.image-frame .media-img { height: 320px; }
+}
+.image-reveal {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #f7f8fa;
+}
+.image-reveal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #f7f8fa 0%, #eef1f4 100%);
+    transform: translateX(0);
+}
+.slide.active .image-reveal::after {
+    animation: reveal-sweep 1.8s var(--ease-out-expo) 0.4s forwards;
+}
+
 /* --- Gradient Formula Card --- */
 /* --- Reparameterization Layout --- */
 .analysis-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin-top: 32px; align-items: center; }
@@ -523,6 +574,10 @@ body {
     60% { background: #fce8e6; box-shadow: 0 0 12px rgba(217, 48, 37, 0.25); }
     100% { background: #fce8e6; box-shadow: 0 0 0 rgba(217, 48, 37, 0); }
 }
+@keyframes reveal-sweep {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}
 @keyframes underline-draw {
     0% { width: 0; }
     100% { width: 100%; }
@@ -540,6 +595,7 @@ body {
     .code-card { max-width: 100%; }
     .media-grid { grid-template-columns: 1fr; }
     .loss-chart { height: 280px; }
+    .overview-grid { grid-template-columns: 1fr; }
 }
 
 /* --- Typography --- */
