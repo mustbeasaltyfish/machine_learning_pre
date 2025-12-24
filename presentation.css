@@ -746,7 +746,7 @@ p, li { font-size: 18px; line-height: 1.6; color: var(--color-on-surface-variant
 .slide[data-type="title"] h1.animate-reveal { --delay: 0.2s; }
 .slide[data-type="title"] .hero-desc.animate-fade-up { --delay: 0.35s; }
 .slide[data-type="title"] .title-info-grid.animate-fade-up { --delay: 0.5s; }
-.slide[data-type="title"] .collaborators-pill-cluster.animate-fade-up { --delay: 0.7s; }
+.slide[data-type="title"] .title-info-grid { margin-top: 40px; margin-bottom: 24px; }
 
 /* --- Section Divider --- */
 .slide-content.section-break {
