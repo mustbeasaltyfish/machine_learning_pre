@@ -470,26 +470,61 @@
             </div>
         </div>
 
-        <!-- Slide 10: Augmentation & Similarity -->
+        <!-- Slide 10: Augmentation Comparison -->
         <div class="slide" data-type="analysis">
             <div class="slide-content">
-                <div class="badge">Lab4-1 Visualization</div>
-                <h2>增强视角与相似度可视化</h2>
-                <p class="slide-subtitle">展示 ipynb 输出的增强样本与相似度矩阵图像。</p>
-                <div class="media-grid">
-                    <div class="media-card" style="--delay: 0.1s;">
-                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/augmentation.png" alt="SimCLR Augmentation Examples">
-                        <div class="media-caption">Strong Augmentation Examples (CIFAR-10)</div>
+                <div class="badge">Lab4-1 Comparison</div>
+                <h2>增强视角对比</h2>
+                <p class="slide-subtitle">不同参数下的增强结果（ipynb 输出）。</p>
+                <div class="compare-grid">
+                    <div class="compare-card" style="--delay: 0.1s;">
+                        <div class="compare-tag">Baseline (1k, tau=0.5)</div>
+                        <img class="compare-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/augmentation_baseline.png" alt="Augmentation Baseline">
                     </div>
-                    <div class="media-card" style="--delay: 0.2s;">
-                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/similarity.png" alt="Similarity Matrix Visualization">
-                        <div class="media-caption">Similarity Matrix Visualization (Batch)</div>
+                    <div class="compare-card" style="--delay: 0.2s;">
+                        <div class="compare-tag">Data 5k (tau=0.5)</div>
+                        <img class="compare-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/augmentation_data_5k.png" alt="Augmentation Data 5k">
+                    </div>
+                    <div class="compare-card" style="--delay: 0.3s;">
+                        <div class="compare-tag">Temp 0.1</div>
+                        <img class="compare-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/augmentation_temp_0_1.png" alt="Augmentation Temp 0.1">
+                    </div>
+                    <div class="compare-card" style="--delay: 0.4s;">
+                        <div class="compare-tag">Temp 0.07</div>
+                        <img class="compare-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/augmentation_temp_0_07.png" alt="Augmentation Temp 0.07">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 11: Loss Curve Comparison -->
+        <!-- Slide 11: Similarity Comparison -->
+        <div class="slide" data-type="analysis">
+            <div class="slide-content">
+                <div class="badge">Lab4-1 Comparison</div>
+                <h2>相似度分布对比</h2>
+                <p class="slide-subtitle">不同参数下的正负样本相似度分布（ipynb 输出）。</p>
+                <div class="compare-grid">
+                    <div class="compare-card" style="--delay: 0.1s;">
+                        <div class="compare-tag">Baseline (1k, tau=0.5)</div>
+                        <img class="compare-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/similarity_baseline.png" alt="Similarity Baseline">
+                    </div>
+                    <div class="compare-card" style="--delay: 0.2s;">
+                        <div class="compare-tag">Data 5k (tau=0.5)</div>
+                        <img class="compare-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/similarity_data_5k.png" alt="Similarity Data 5k">
+                    </div>
+                    <div class="compare-card" style="--delay: 0.3s;">
+                        <div class="compare-tag">Temp 0.1</div>
+                        <img class="compare-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/similarity_temp_0_1.png" alt="Similarity Temp 0.1">
+                    </div>
+                    <div class="compare-card" style="--delay: 0.4s;">
+                        <div class="compare-tag">Temp 0.07</div>
+                        <img class="compare-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/similarity_temp_0_07.png" alt="Similarity Temp 0.07">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Loss Curve Comparison -->
         <div class="slide" data-type="analysis">
             <div class="slide-content">
                 <div class="badge">Loss Curves</div>
@@ -543,13 +578,13 @@
             </div>
         </div>
 
-        <!-- Slide 12: t-SNE & Linear Eval -->
+        <!-- Slide 13: t-SNE Comparison & Linear Eval -->
         <div class="slide" data-type="analysis">
             <div class="slide-content split-layout">
                 <div class="text-col">
                     <div class="badge">Representation</div>
-                    <h2>t-SNE 表征分布</h2>
-                    <p class="slide-subtitle">ipynb 输出图像展示特征在低维空间的聚类趋势。</p>
+                    <h2>t-SNE 表征分布对比</h2>
+                    <p class="slide-subtitle">不同参数下的潜在特征分布（ipynb 输出）。</p>
                     <div class="metric-card">
                         <div class="metric-label">Linear Evaluation Accuracy</div>
                         <div class="metric-value">37.5%</div>
@@ -557,15 +592,29 @@
                     </div>
                 </div>
                 <div class="text-col">
-                    <div class="media-card large" style="--delay: 0.2s;">
-                        <img class="media-img" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/tsne.png" alt="t-SNE Visualization">
-                        <div class="media-caption">t-SNE Visualization (Test Samples)</div>
+                    <div class="compare-grid two-col">
+                        <div class="compare-card" style="--delay: 0.1s;">
+                            <div class="compare-tag">Baseline (1k, tau=0.5)</div>
+                            <img class="compare-img large" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/tsne_baseline.png" alt="t-SNE Baseline">
+                        </div>
+                        <div class="compare-card" style="--delay: 0.2s;">
+                            <div class="compare-tag">Data 5k (tau=0.5)</div>
+                            <img class="compare-img large" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/tsne_data_5k.png" alt="t-SNE Data 5k">
+                        </div>
+                        <div class="compare-card" style="--delay: 0.3s;">
+                            <div class="compare-tag">Temp 0.1</div>
+                            <img class="compare-img large" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/tsne_temp_0_1.png" alt="t-SNE Temp 0.1">
+                        </div>
+                        <div class="compare-card" style="--delay: 0.4s;">
+                            <div class="compare-tag">Temp 0.07</div>
+                            <img class="compare-img large" src="section/04_Results_Analysis_Visualization/lab4-1_SimCLR/images/compare/tsne_temp_0_07.png" alt="t-SNE Temp 0.07">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 13: Lab4-1 Conclusion -->
+        <!-- Slide 14: Lab4-1 Conclusion -->
         <div class="slide" data-type="summary">
             <div class="slide-content center">
                 <div class="badge">Conclusion</div>
