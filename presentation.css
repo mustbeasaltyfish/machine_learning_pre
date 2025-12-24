@@ -535,6 +535,7 @@ body {
     border-radius: 24px;
     padding: 16px;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
     transform: scale(0.95) translateY(10px);
     opacity: 0;
     transition:
@@ -551,12 +552,21 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    max-width: 100%;
+    max-height: 100%;
 }
 .lightbox-inner > * {
-    max-width: 90vw;
+    max-width: min(90vw, 1040px);
     max-height: 78vh;
     width: auto;
     height: auto;
+}
+.lightbox-inner img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 78vh;
+    object-fit: contain;
 }
 .lightbox-content .loss-chart-card {
     width: min(960px, 90vw);
