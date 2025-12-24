@@ -444,6 +444,10 @@ body {
 .loss-point.line-data { fill: #1a73e8; }
 .loss-point.line-temp01 { fill: #ea4335; }
 .loss-point.line-temp007 { fill: #9b72cb; }
+
+/* Keep curves visible inside lightbox */
+.lightbox.open .loss-line { stroke-dashoffset: 0; }
+.lightbox.open .loss-point { opacity: 1; transform: scale(1); }
 .chart-legend { display: flex; flex-wrap: wrap; gap: 12px 18px; margin-top: 14px; font-size: 12px; color: #5f6368; }
 .legend-item { display: flex; align-items: center; gap: 8px; }
 .legend-dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }
@@ -502,6 +506,77 @@ body {
     border-radius: 12px;
 }
 .compare-img.large { height: clamp(180px, 28vh, 280px); }
+.zoomable { cursor: zoom-in; }
+.zoomable:focus-visible { outline: 2px solid #1a73e8; outline-offset: 3px; }
+
+/* --- Lightbox --- */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 200;
+    transition: opacity 0.4s var(--ease-in-out-smooth);
+}
+.lightbox.open { opacity: 1; pointer-events: auto; }
+.lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 18, 22, 0.45);
+    backdrop-filter: blur(4px);
+}
+.lightbox-content {
+    position: relative;
+    z-index: 1;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 16px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95) translateY(10px);
+    opacity: 0;
+    transition:
+        transform 0.7s var(--ease-out-expo),
+        opacity 0.4s var(--ease-in-out-smooth);
+    max-width: min(94vw, 1100px);
+    max-height: 86vh;
+}
+.lightbox.open .lightbox-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+.lightbox-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lightbox-inner > * {
+    max-width: 90vw;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+}
+.lightbox-content .loss-chart-card {
+    width: min(960px, 90vw);
+}
+.lightbox-content .loss-chart { height: min(420px, 60vh); }
+.lightbox-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: #444746;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+.lightbox-close:hover { background: #f1f3f4; }
 
 /* --- Lab4-2 Overview --- */
 .overview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }

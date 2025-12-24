@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBar = document.getElementById('progress-bar');
     const iconPlay = document.getElementById('icon-play');
     const iconPause = document.getElementById('icon-pause');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxInner = lightbox ? lightbox.querySelector('.lightbox-inner') : null;
+    let isLightboxOpen = false;
 
     // Initialize
     updateUI();
@@ -96,6 +99,55 @@ document.addEventListener('DOMContentLoaded', () => {
         progressBar.style.width = `${progress}%`;
     }
 
+    function openLightbox(node) {
+        if (!lightbox || !lightboxInner) return;
+        lightboxInner.innerHTML = '';
+        let contentNode = null;
+        if (node.tagName === 'IMG') {
+            const img = document.createElement('img');
+            img.src = node.currentSrc || node.src;
+            img.alt = node.alt || 'Zoomed image';
+            contentNode = img;
+        } else {
+            contentNode = node.cloneNode(true);
+        }
+        lightboxInner.appendChild(contentNode);
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        isLightboxOpen = true;
+    }
+
+    function closeLightbox() {
+        if (!lightbox) return;
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        if (lightboxInner) lightboxInner.innerHTML = '';
+        isLightboxOpen = false;
+    }
+
+    if (lightbox) {
+        lightbox.querySelectorAll('[data-lightbox-close]').forEach((el) => {
+            el.addEventListener('click', (event) => {
+                event.stopPropagation();
+                closeLightbox();
+            });
+        });
+    }
+
+    document.querySelectorAll('[data-zoomable]').forEach((node) => {
+        node.setAttribute('tabindex', '0');
+        node.addEventListener('click', (event) => {
+            event.stopPropagation();
+            openLightbox(node);
+        });
+        node.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openLightbox(node);
+            }
+        });
+    });
+
     // --- Event Listeners ---
 
     btnNext.addEventListener('click', nextSlide);
@@ -103,6 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAuto.addEventListener('click', toggleAutoPlay);
 
     document.addEventListener('keydown', (e) => {
+        if (isLightboxOpen) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+            return;
+        }
         if (e.key === 'ArrowRight' || e.key === ' ') {
             nextSlide();
         } else if (e.key === 'ArrowLeft') {
