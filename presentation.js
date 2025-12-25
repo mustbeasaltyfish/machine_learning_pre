@@ -10,9 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnPrev = document.getElementById('btn-prev');
     const btnNext = document.getElementById('btn-next');
     const btnAuto = document.getElementById('btn-autoplay');
+    const btnFullscreen = document.getElementById('btn-fullscreen');
     const progressBar = document.getElementById('progress-bar');
     const iconPlay = document.getElementById('icon-play');
     const iconPause = document.getElementById('icon-pause');
+    const iconFullscreen = document.getElementById('icon-fullscreen');
+    const iconExitFullscreen = document.getElementById('icon-exit-fullscreen');
     const lightbox = document.getElementById('lightbox');
     const lightboxInner = lightbox ? lightbox.querySelector('.lightbox-inner') : null;
     let isLightboxOpen = false;
@@ -94,9 +97,23 @@ document.addEventListener('DOMContentLoaded', () => {
             iconPlay.style.display = 'block';
             iconPause.style.display = 'none';
         }
+        const isFullscreen = Boolean(document.fullscreenElement);
+        if (iconFullscreen && iconExitFullscreen) {
+            iconFullscreen.style.display = isFullscreen ? 'none' : 'block';
+            iconExitFullscreen.style.display = isFullscreen ? 'block' : 'none';
+        }
+        document.body.classList.toggle('fullscreen', isFullscreen);
         // Ensure progress is set on init
         const progress = ((currentSlide + 1) / totalSlides) * 100;
         progressBar.style.width = `${progress}%`;
+    }
+
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+            document.exitFullscreen().catch(() => {});
+        }
     }
 
     function openLightbox(node) {
@@ -153,6 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
     btnNext.addEventListener('click', nextSlide);
     btnPrev.addEventListener('click', prevSlide);
     btnAuto.addEventListener('click', toggleAutoPlay);
+    if (btnFullscreen) {
+        btnFullscreen.addEventListener('click', toggleFullscreen);
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+        updateUI();
+    });
 
     document.addEventListener('keydown', (e) => {
         if (isLightboxOpen) {
