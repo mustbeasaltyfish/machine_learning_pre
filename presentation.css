@@ -1117,10 +1117,11 @@ p, li { font-size: 18px; line-height: 1.6; color: var(--color-on-surface-variant
 .info-item .label { font-size: 12px; text-transform: uppercase; color: #444746; margin-bottom: 4px; }
 .info-item .value { font-size: 16px; font-weight: 500; color: #1f1f1f; }
 
-.controls { position: fixed; bottom: clamp(8px, 2vh, 24px); left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.9); padding: 8px 16px; border-radius: 999px; display: flex; align-items: center; gap: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100; border: 1px solid #e0e3e1; }
+.controls { position: fixed; bottom: clamp(8px, 2vh, 24px); left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.9); padding: 8px 16px; border-radius: 999px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100; border: 1px solid #e0e3e1; }
 .nav-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; color: #444746; }
 .progress-container { width: 200px; height: 4px; background: #e0e3e1; border-radius: 2px; overflow: hidden; }
 .progress-bar { height: 100%; background: var(--color-primary); width: 0%; transition: width 0.3s ease; }
+.progress-count { font-size: 12px; color: #5f6368; font-weight: 500; min-width: 54px; text-align: center; }
 
 .stagger-list li { margin-bottom: 24px; opacity: 0; transform: translateX(-20px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; display: flex; }
 .slide.active .stagger-list li { opacity: 1; transform: translateX(0); }

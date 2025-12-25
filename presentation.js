@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAuto = document.getElementById('btn-autoplay');
     const btnFullscreen = document.getElementById('btn-fullscreen');
     const progressBar = document.getElementById('progress-bar');
+    const progressCount = document.getElementById('progress-count');
     const iconPlay = document.getElementById('icon-play');
     const iconPause = document.getElementById('icon-pause');
     const iconFullscreen = document.getElementById('icon-fullscreen');
@@ -45,6 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update Progress Bar
         const progress = ((currentSlide + 1) / totalSlides) * 100;
         progressBar.style.width = `${progress}%`;
+        if (progressCount) {
+            progressCount.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
     }
 
     function nextSlide() {
