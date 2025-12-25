@@ -509,6 +509,30 @@ body {
 .zoomable { cursor: zoom-in; }
 .zoomable:focus-visible { outline: 2px solid #1a73e8; outline-offset: 3px; }
 
+/* --- Team Roles --- */
+.role-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 32px; width: 100%; max-width: 900px; }
+.role-card {
+    background: #f8f9fa;
+    border-radius: 20px;
+    border: 1px solid #e0e3e1;
+    padding: 20px;
+    text-align: left;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+        opacity 0.6s var(--ease-in-out-smooth),
+        transform 0.8s var(--ease-out-expo);
+}
+.slide.active .role-card { opacity: 1; transform: translateY(0); }
+.slide.active .role-grid .role-card:nth-child(1) { transition-delay: 0.1s; }
+.slide.active .role-grid .role-card:nth-child(2) { transition-delay: 0.2s; }
+.slide.active .role-grid .role-card:nth-child(3) { transition-delay: 0.3s; }
+.slide.active .role-grid .role-card:nth-child(4) { transition-delay: 0.4s; }
+.role-name { font-size: 18px; font-weight: 600; color: #1f1f1f; margin-bottom: 8px; }
+.role-desc { font-size: 14px; color: #5f6368; line-height: 1.6; }
+.role-share { margin-top: 12px; font-size: 12px; font-weight: 600; color: #1a73e8; text-transform: uppercase; letter-spacing: 0.6px; }
+
 /* --- Lightbox --- */
 .lightbox {
     position: fixed;
@@ -742,6 +766,7 @@ body {
     .loss-chart { height: 280px; }
     .overview-grid { grid-template-columns: 1fr; }
     .divider-title { font-size: 42px; }
+    .role-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 720px) {
